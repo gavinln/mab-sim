@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "mab-sim"
+version = "0.1.0"
+description = ""
+authors = ["Gavin Noronha <gavinln@hotmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+jupyterlab = "^3.4.3"
+ipython = "^8.4.0"
+jupytext = "^1.13.8"
+matplotlib = "^3.5.2"
+Theano-PyMC = "^1.1.2"
+scipy = "1.7.3"
+pymc3 = "^3.11.5"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+ipython = "^8.4.0"
+jupyterlab = "^3.4.2"
+jupyter-console = "^6.4.3"
+black = {extras = ["jupyter"], version = "^22.3.0"}
+flake8 = "^4.0.1"
+mypy = "^0.961"
+python-lsp-server = "^1.4.1"
+pylsp-mypy = "^0.5.8"
+vulture = "^2.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+skip-string-normalization = true
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
