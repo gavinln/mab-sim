@@ -10,7 +10,7 @@ Multi-armed bandit simulations
 
 [Python library][1000] for multi-armed bandits
 
-[100]: https://github.com/bgalbraith/bandits
+[1000]: https://github.com/bgalbraith/bandits
 
 [Research framework][1010] for multi-armed bandits
 
