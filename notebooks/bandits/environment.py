@@ -3,10 +3,10 @@ import numpy as np
 import seaborn as sns
 import scipy.stats as stats
 
-from bandits.agent import BetaAgent
+from bandits.agent import BetaAgent2
 
 
-class Environment(object):
+class Environment2(object):
     def __init__(self, bandit, agents, label='Multi-Armed Bandit'):
         self.bandit = bandit
         self.agents = agents
@@ -66,7 +66,7 @@ class Environment(object):
             axes[i].vlines(val, 0, 1, colors=color)
 
         for i, agent in enumerate(self.agents):
-            if type(agent) is not BetaAgent:
+            if type(agent) is not BetaAgent2:
                 for j, val in enumerate(agent.value_estimates):
                     axes[j].vlines(val, 0, 0.75, colors=pal[i], alpha=0.8)
             else:

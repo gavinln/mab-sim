@@ -2,7 +2,7 @@ import numpy as np
 import pymc3 as pm
 
 
-class MultiArmedBandit(object):
+class MultiArmedBandit2(object):
     """
     A Multi-armed Bandit
     """
@@ -19,13 +19,13 @@ class MultiArmedBandit(object):
         return 0, True
 
 
-class GaussianBandit(MultiArmedBandit):
+class GaussianBandit2(MultiArmedBandit2):
     """
-    Gaussian bandits model the reward of a given arm as normal distribution with
-    provided mean and standard deviation.
+    Gaussian bandits model the reward of a given arm as normal distribution
+    with provided mean and standard deviation.
     """
     def __init__(self, k, mu=0, sigma=1):
-        super(GaussianBandit, self).__init__(k)
+        super(GaussianBandit2, self).__init__(k)
         self.mu = mu
         self.sigma = sigma
         self.reset()
@@ -39,24 +39,25 @@ class GaussianBandit(MultiArmedBandit):
                 action == self.optimal)
 
 
-class BinomialBandit(MultiArmedBandit):
+class BinomialBandit2(MultiArmedBandit2):
     """
-    The Binomial distribution models the probability of an event occurring with
-    p probability k times over N trials i.e. get heads on a p-coin k times on
-    N flips.
+    The Binomial distribution models the probability of an event occurring
+    with p probability k times over N trials i.e. get heads on a p-coin k
+    times on N flips.
 
     In the bandit scenario, this can be used to approximate a discrete user
     rating or "strength" of response to a single event.
     """
     def __init__(self, k, n, p=None, t=None):
-        super(BinomialBandit, self).__init__(k)
+        super(BinomialBandit2, self).__init__(k)
         self.n = n
         self.p = p
         self.t = t
         self.model = pm.Model()
         with self.model:
-            self.bin = pm.Binomial('binomial', n=n*np.ones(k, dtype=np.int),
-                                   p=np.ones(k)/n, shape=(1, k), transform=None)
+            self.bin = pm.Binomial(
+                'binomial', n=n*np.ones(k, dtype=np.uint),
+                p=np.ones(k)/n, shape=(1, k), transform=None)
         self._samples = None
         self._cursor = 0
 
@@ -87,14 +88,15 @@ class BinomialBandit(MultiArmedBandit):
             return val
 
 
-class BernoulliBandit(BinomialBandit):
+class BernoulliBandit2(BinomialBandit2):
     """
     The Bernoulli distribution models the probability of a single event
-    occurring with p probability i.e. get heads on a single p-coin flip. This is
-    the special case of the Binomial distribution where N=1.
+    occurring with p probability i.e. get heads on a single p-coin flip.
+    This is the special case of the Binomial distribution where N=1.
 
-    In the bandit scenario, this can be used to approximate a hit or miss event,
-    such as if a user clicks on a headline, ad, or recommended product.
+    In the bandit scenario, this can be used to approximate a hit or miss
+    event, such as if a user clicks on a headline, ad, or recommended
+    product.
     """
     def __init__(self, k, p=None, t=None):
-        super(BernoulliBandit, self).__init__(k, 1, p=p, t=t)
+        super(BernoulliBandit2, self).__init__(k, 1, p=p, t=t)

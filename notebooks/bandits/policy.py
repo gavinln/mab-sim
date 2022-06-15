@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Policy(object):
+class Policy2(object):
     """
     A policy prescribes an action to be taken based on the memory of an agent.
     """
@@ -12,7 +12,7 @@ class Policy(object):
         return 0
 
 
-class EpsilonGreedyPolicy(Policy):
+class EpsilonGreedyPolicy2(Policy2):
     """
     The Epsilon-Greedy policy will choose a random action with probability
     epsilon and take the best apparent approach with probability 1-epsilon. If
@@ -37,33 +37,33 @@ class EpsilonGreedyPolicy(Policy):
                 return np.random.choice(check)
 
 
-class GreedyPolicy(EpsilonGreedyPolicy):
+class GreedyPolicy2(EpsilonGreedyPolicy2):
     """
     The Greedy policy only takes the best apparent action, with ties broken by
     random selection. This can be seen as a special case of EpsilonGreedy where
     epsilon = 0 i.e. always exploit.
     """
     def __init__(self):
-        super(GreedyPolicy, self).__init__(0)
+        super(GreedyPolicy2, self).__init__(0)
 
     def __str__(self):
         return 'greedy'
 
 
-class RandomPolicy(EpsilonGreedyPolicy):
+class RandomPolicy2(EpsilonGreedyPolicy2):
     """
     The Random policy randomly selects from all available actions with no
     consideration to which is apparently best. This can be seen as a special
     case of EpsilonGreedy where epsilon = 1 i.e. always explore.
     """
     def __init__(self):
-        super(RandomPolicy, self).__init__(1)
+        super(RandomPolicy2, self).__init__(1)
 
     def __str__(self):
         return 'random'
 
 
-class UCBPolicy(Policy):
+class UCBPolicy2(Policy2):
     """
     The Upper Confidence Bound algorithm (UCB1). It applies an exploration
     factor to the expected value of each arm which can influence a greedy
@@ -89,7 +89,7 @@ class UCBPolicy(Policy):
             return np.random.choice(check)
 
 
-class SoftmaxPolicy(Policy):
+class SoftmaxPolicy2(Policy2):
     """
     The Softmax policy converts the estimated arm rewards into probabilities
     then randomly samples from the resultant distribution. This policy is

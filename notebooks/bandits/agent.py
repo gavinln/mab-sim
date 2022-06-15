@@ -2,7 +2,7 @@ import numpy as np
 import pymc3 as pm
 
 
-class Agent(object):
+class Agent2(object):
     """
     An Agent is able to take one of a set of actions at each time step. The
     action is chosen using a strategy based on the history of prior actions
@@ -52,14 +52,14 @@ class Agent(object):
         return self._value_estimates
 
 
-class GradientAgent(Agent):
+class GradientAgent2(Agent2):
     """
     The Gradient Agent learns the relative difference between actions instead of
     determining estimates of reward values. It effectively learns a preference
     for one action over another.
     """
     def __init__(self, bandit, policy, prior=0, alpha=0.1, baseline=True):
-        super(GradientAgent, self).__init__(bandit, policy, prior)
+        super(GradientAgent2, self).__init__(bandit, policy, prior)
         self.alpha = alpha
         self.baseline = baseline
         self.average_reward = 0
@@ -83,18 +83,18 @@ class GradientAgent(Agent):
         self.t += 1
 
     def reset(self):
-        super(GradientAgent, self).reset()
+        super(GradientAgent2, self).reset()
         self.average_reward = 0
 
 
-class BetaAgent(Agent):
+class BetaAgent2(Agent2):
     """
     The Beta Agent is a Bayesian approach to a bandit problem with a Bernoulli
      or Binomial likelihood, as these distributions have a Beta distribution as
      a conjugate prior.
     """
     def __init__(self, bandit, policy, ts=True):
-        super(BetaAgent, self).__init__(bandit, policy)
+        super(BetaAgent2, self).__init__(bandit, policy)
         self.n = bandit.n
         self.ts = ts
         self.model = pm.Model()
@@ -111,7 +111,7 @@ class BetaAgent(Agent):
             return 'b/{}'.format(str(self.policy))
 
     def reset(self):
-        super(BetaAgent, self).reset()
+        super(BetaAgent2, self).reset()
         self._prior.distribution.alpha = np.ones(self.k)
         self._prior.distribution.beta = np.ones(self.k)
 
