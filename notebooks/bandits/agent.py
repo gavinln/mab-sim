@@ -1,6 +1,8 @@
 import numpy as np
 import pymc3 as pm
 
+from typing import Tuple
+
 
 class Agent2(object):
     """
@@ -158,15 +160,14 @@ class Agent(object):
     and outcome observations.
     """
 
-    def __init__(self, bandit, policy, prior=0, gamma=None):
+    def __init__(self, bandit, policy, prior=0):
+        self.bandit = bandit
         self.policy = policy
-        self.k = bandit.k
         self.prior = prior
-        self.gamma = gamma
-        self._value_estimates = prior * np.ones(self.k)
-        self.action_attempts = np.zeros(self.k)
+        arm_count = bandit.arm_count
+        self._value_estimates = prior * np.ones(arm_count)
+        self._action_attempts = np.zeros(arm_count)
         self.t = 0
-        self.last_action = None
 
     def __str__(self):
         return 'f/{}'.format(str(self.policy))
@@ -176,26 +177,23 @@ class Agent(object):
         Resets the agent's memory to an initial state.
         """
         self._value_estimates[:] = self.prior
-        self.action_attempts[:] = 0
-        self.last_action = None
+        self._action_attempts[:] = 0
         self.t = 0
 
-    def choose(self):
-        action = self.policy.choose(self)
-        self.last_action = action
-        return action
+    def choose(self) -> Tuple[int, float, bool]:
+        arm = self.policy.choose(self)
+        reward, is_optimal = self.bandit.pull(arm)
 
-    def observe(self, reward):
-        self.action_attempts[self.last_action] += 1
+        old_action_attempt = self._action_attempts[arm]
+        old_reward = self._value_estimates[arm] * old_action_attempt
 
-        if self.gamma is None:
-            g = 1 / self.action_attempts[self.last_action]
-        else:
-            g = self.gamma
-        q = self._value_estimates[self.last_action]
+        new_action_attempt = old_action_attempt + 1
+        new_value_estimate = (old_reward + reward) / new_action_attempt
 
-        self._value_estimates[self.last_action] += g * (reward - q)
+        self._action_attempts[arm] = new_action_attempt
+        self._value_estimates[arm] = new_value_estimate
         self.t += 1
+        return arm, reward, is_optimal
 
     @property
     def value_estimates(self):

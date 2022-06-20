@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 import scipy.stats as stats
 
-from bandits.agent import BetaAgent
+from bandits.agent import BetaAgent2
 
 
 class Environment(object):

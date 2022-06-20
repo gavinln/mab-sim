@@ -5,6 +5,7 @@ class Policy2(object):
     """
     A policy prescribes an action to be taken based on the memory of an agent.
     """
+
     def __str__(self):
         return 'generic policy'
 
@@ -19,6 +20,7 @@ class EpsilonGreedyPolicy2(Policy2):
     multiple actions are tied for best choice, then a random action from that
     subset is selected.
     """
+
     def __init__(self, epsilon):
         self.epsilon = epsilon
 
@@ -30,7 +32,9 @@ class EpsilonGreedyPolicy2(Policy2):
             return np.random.choice(len(agent.value_estimates))
         else:
             action = np.argmax(agent.value_estimates)
-            check = np.where(agent.value_estimates == agent.value_estimates[action])[0]
+            check = np.where(
+                agent.value_estimates == agent.value_estimates[action]
+            )[0]
             if len(check) == 1:
                 return action
             else:
@@ -43,6 +47,7 @@ class GreedyPolicy2(EpsilonGreedyPolicy2):
     random selection. This can be seen as a special case of EpsilonGreedy where
     epsilon = 0 i.e. always exploit.
     """
+
     def __init__(self):
         super(GreedyPolicy2, self).__init__(0)
 
@@ -56,6 +61,7 @@ class RandomPolicy2(EpsilonGreedyPolicy2):
     consideration to which is apparently best. This can be seen as a special
     case of EpsilonGreedy where epsilon = 1 i.e. always explore.
     """
+
     def __init__(self):
         super(RandomPolicy2, self).__init__(1)
 
@@ -69,6 +75,7 @@ class UCBPolicy2(Policy2):
     factor to the expected value of each arm which can influence a greedy
     selection strategy to more intelligently explore less confident options.
     """
+
     def __init__(self, c):
         self.c = c
 
@@ -76,9 +83,9 @@ class UCBPolicy2(Policy2):
         return 'UCB (c={})'.format(self.c)
 
     def choose(self, agent):
-        exploration = np.log(agent.t+1) / agent.action_attempts
+        exploration = np.log(agent.t + 1) / agent.action_attempts
         exploration[np.isnan(exploration)] = 0
-        exploration = np.power(exploration, 1/self.c)
+        exploration = np.power(exploration, 1 / self.c)
 
         q = agent.value_estimates + exploration
         action = np.argmax(q)
@@ -95,6 +102,7 @@ class SoftmaxPolicy2(Policy2):
     then randomly samples from the resultant distribution. This policy is
     primarily employed by the Gradient Agent for learning relative preferences.
     """
+
     def __str__(self):
         return 'SM'
 
@@ -110,6 +118,7 @@ class Policy(object):
     """
     A policy prescribes an action to be taken based on the memory of an agent.
     """
+
     def __str__(self):
         return 'generic policy'
 
@@ -124,6 +133,7 @@ class EpsilonGreedyPolicy(Policy):
     multiple actions are tied for best choice, then a random action from that
     subset is selected.
     """
+
     def __init__(self, epsilon):
         self.epsilon = epsilon
 
@@ -135,7 +145,9 @@ class EpsilonGreedyPolicy(Policy):
             return np.random.choice(len(agent.value_estimates))
         else:
             action = np.argmax(agent.value_estimates)
-            check = np.where(agent.value_estimates == agent.value_estimates[action])[0]
+            check = np.where(
+                agent.value_estimates == agent.value_estimates[action]
+            )[0]
             if len(check) == 1:
                 return action
             else:
@@ -162,6 +174,7 @@ class RandomPolicy(EpsilonGreedyPolicy):
     consideration to which is apparently best. This can be seen as a special
     case of EpsilonGreedy where epsilon = 1 i.e. always explore.
     """
+
     def __init__(self):
         super(RandomPolicy, self).__init__(1)
 

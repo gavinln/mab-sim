@@ -7,7 +7,11 @@ import sys
 # import matplotlib
 # matplotlib.use('qt4agg')
 # from bandits.agent import Agent, BetaAgent
-from bandits.bandit import BernoulliBandit, BinomialBandit
+from bandits.bandit import BernoulliBandit
+from bandits.policy import RandomPolicy
+from bandits.policy import GreedyPolicy
+from bandits.policy import EpsilonGreedyPolicy
+from bandits.agent import Agent
 
 # from bandits.policy import GreedyPolicy, EpsilonGreedyPolicy, UCBPolicy
 # from bandits.environment import Environment
@@ -35,10 +39,17 @@ from bandits.bandit import BernoulliBandit, BinomialBandit
 
 if __name__ == '__main__':
     experiments = 1
-    trials = 10
+    total_steps = 1_000_000
 
-    bandit = BernoulliBandit(3, np.array([0.7, 0.1, 0.5]), 4)
-    breakpoint()
+    bandit = BernoulliBandit(3, np.array([0.7, 0.1, 0.5]), total_steps)
+    # agent = Agent(bandit, RandomPolicy())
+    agent = Agent(bandit, GreedyPolicy())
+    total_optimal = 0
+    for step in range(total_steps):
+        arm, reward, is_optimal = agent.choose()
+        # print(step, arm, reward, is_optimal)
+        total_optimal += is_optimal
+    print('Optimal fraction: {}'.format(total_optimal/total_steps))
 
     # example = BernoulliExample()
     # example = BinomialExample()

@@ -83,7 +83,6 @@ class BinomialBandit2(MultiArmedBandit2):
 
     def pull(self, action):
         reward, is_optimal = self.sample[action], action == self.optimal
-        breakpoint()
         return reward, is_optimal
 
     @property
@@ -145,24 +144,23 @@ class BinomialBandit(MultiArmedBandit):
         self.n = n  # n trials of a binomial distribution
         self.p = p  # p probability of success in each trial
         self.step_count = step_count  # number of bandit draws/steps
-        self._samples = None
+        self._sample: np.ndarray
         self._current_step = 0
 
         self.reset()
 
     def reset(self):
-        samples = []
         rng = np.random.default_rng()
-        for arm in range(self.arm_count):
-            samples.append(rng.binomial(self.n, self.p[arm], self.step_count))
-        self._samples = np.vstack(samples)
+        self._samples = rng.binomial(
+            self.n, self.p, (self.step_count, self.p.size)
+        )
         self._current_step = 0
 
     def is_optimal_arm(self, arm: int, step: int):
         assert arm < self.arm_count
         assert step < self.step_count
 
-        step_values = self._samples[:, step]
+        step_values = self._samples[step, :]
         max_value = np.max(step_values)
         max_index = np.nonzero(step_values >= max_value)[0]
         is_optimal = np.any(max_index == arm)
@@ -171,7 +169,7 @@ class BinomialBandit(MultiArmedBandit):
     def pull(self, arm: int):
         assert arm >= 0 and arm < self.arm_count
         assert self._current_step < self.step_count
-        reward = self._samples[arm, self._current_step]
+        reward = self._samples[self._current_step, arm]
         is_optimal = self.is_optimal_arm(arm, self._current_step)
         self._current_step += 1
         return reward, is_optimal

@@ -24,6 +24,10 @@ Multi-armed bandit simulations
 
 [1030]: https://github.com/alison-carrera/mabalgs
 
+[Thompson sampling examples][1040]
+
+[1040]: https://github.com/iosband/ts_tutorial
+
 ### Vowpal Wabbit
 
 [Tutorial][1040]
