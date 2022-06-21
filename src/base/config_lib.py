@@ -62,12 +62,14 @@ def get_job_config(config_in, job_id):
         job_id: integer identifier for which specific experiment to retrieve.
 
     Returns:
-        exp_config: dictionary including experiment, experiment name and unique_id.
+        exp_config: dictionary including experiment, experiment name and
+        unique_id.
 
     Raises:
-        ValueError: if the job_id is not found in the config, typically this means
-        you have asked for a job_id larger than the total cross product of valid
-        experiments.
+        ValueError: if the job_id is not found in the config, typically this
+        means you have asked for a job_id larger than the total cross
+        product of valid experiments.
+
     """
     for job_info in iterate_through_config(config_in):
         if job_id == job_info["unique_id"]:

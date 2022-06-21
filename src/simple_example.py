@@ -23,7 +23,6 @@ sys.path.append(os.getcwd())
 
 probs = [0.7, 0.8, 0.9]
 n_steps = 1000
-n_steps = 4
 seed = 0
 
 # agent = FiniteBernoulliBanditTS(n_arm=len(probs))
@@ -33,12 +32,15 @@ experiment = BaseExperiment(
     agent, env, n_steps=n_steps, seed=seed, unique_id='example'
 )
 
-results_df = experiment.run_experiment()
+experiment.run_experiment()
+
+results_df = pd.DataFrame(experiment.results)
+
+print(type(agent).__name__)
+print(results_df.tail(1)[['cum_regret']])
 
 ##############################################################################
 # Simple display / plot of results
-
-print(results_df.head())
 
 
 p = (

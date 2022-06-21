@@ -80,8 +80,6 @@ class BaseExperiment(object):
         for t in range(self.n_steps):
             self.run_step_maybe_log(t)
 
-        return pd.DataFrame(self.results)
-
 
 ##############################################################################
 
