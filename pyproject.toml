@@ -16,6 +16,7 @@ pymc3 = "^3.11.5"
 python-lsp-server = "^1.4.1"
 seaborn = "^0.11.2"
 plotnine = "^0.8.0"
+pyinstrument = "^4.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
