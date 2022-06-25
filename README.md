@@ -28,6 +28,18 @@ Multi-armed bandit simulations
 
 [1040]: https://github.com/iosband/ts_tutorial
 
+[Bandits with Rust][1050]
+
+[1050]: https://towardsdatascience.com/rusty-bandit-724a9a7a3606
+
+[Multi-armed bandits in Python][1060]
+
+[1060]: https://jamesrledoux.com/algorithms/bandit-algorithms-epsilon-ucb-exp-python/
+
+[Survey of bandits][1070]
+
+[1070]: https://eugeneyan.com/writing/bandits/
+
 ### Vowpal Wabbit
 
 [Tutorial][1040]
