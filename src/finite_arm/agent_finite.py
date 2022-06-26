@@ -12,8 +12,9 @@ _SMALL_NUMBER = 1e-10
 class FiniteBernoulliBanditEpsilonGreedy(Agent):
     """Simple agent made for finite armed bandit problems."""
 
-    def __init__(self, n_arm, a0=1, b0=1, epsilon=0.0):
+    def __init__(self, n_arm, name, a0=1, b0=1, epsilon=0.0):
         self.n_arm = n_arm
+        self.name = name
         self.epsilon = epsilon
         self.prior_success = np.array([a0 for arm in range(n_arm)])
         self.prior_failure = np.array([b0 for arm in range(n_arm)])
@@ -106,8 +107,9 @@ class FiniteBernoulliBanditLaplace(FiniteBernoulliBanditTS):
 class DriftingFiniteBernoulliBanditTS(FiniteBernoulliBanditTS):
     """Thompson sampling on finite armed bandit."""
 
-    def __init__(self, n_arm, a0=1, b0=1, gamma=0.01):
+    def __init__(self, n_arm, name, a0=1, b0=1, gamma=0.01):
         self.n_arm = n_arm
+        self.name = name
         self.a0 = a0
         self.b0 = b0
         self.prior_success = np.array([a0 for arm in range(n_arm)])
@@ -134,9 +136,16 @@ class FiniteBernoulliBanditLangevin(FiniteBernoulliBanditTS):
     """Langevin method for approximate posterior sampling."""
 
     def __init__(
-        self, n_arm, step_count=100, step_size=0.01, a0=1, b0=1, epsilon=0.0
+        self,
+        n_arm,
+        name,
+        step_count=100,
+        step_size=0.01,
+        a0=1,
+        b0=1,
+        epsilon=0.0,
     ):
-        FiniteBernoulliBanditTS.__init__(self, n_arm, a0, b0, epsilon)
+        FiniteBernoulliBanditTS.__init__(self, n_arm, name, a0, b0, epsilon)
         self.step_count = step_count
         self.step_size = step_size
 

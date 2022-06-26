@@ -9,4 +9,12 @@ help:  ## help for this Makefile
 jupyter:  ## start jupyter lab
 	poetry run jupyter lab --ip=127.0.0.1 --no-browser --notebook-dir=notebooks
 
+.PHONY: pytest
+pytest:  ## run pytest
+	poetry run python -m pytest src
+
+.PHONY: mypy
+mypy:  ## run mypy
+	poetry run python -m mypy src
+
 
