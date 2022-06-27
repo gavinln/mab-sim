@@ -73,7 +73,7 @@ def get_job_config(config_in, job_id):
     """
     for job_info in iterate_through_config(config_in):
         # rec_freq = 1
-        rec_freq = 100000
+        rec_freq = 10000
         if job_id == job_info["unique_id"]:
             agent = job_info["agent_constructor"]()
             env = job_info["environment_constructor"]()
