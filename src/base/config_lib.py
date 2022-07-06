@@ -22,10 +22,6 @@ Config = collections.namedtuple(
 )
 
 
-#############################################################################
-# Code for loading/passing configs.
-
-
 def iterate_through_config(config_in):
     """Iterator to pass through config file without evaluating.
 
