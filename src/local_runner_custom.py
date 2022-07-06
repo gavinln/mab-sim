@@ -18,7 +18,6 @@ parallel evaluations.
 """
 
 import functools
-import collections
 
 from base import config_lib
 from finite_arm import config_simple

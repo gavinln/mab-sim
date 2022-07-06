@@ -1,4 +1,5 @@
-"""Run an experiment locally from a config file.
+"""
+Run an experiment locally from a config file.
 
 We suggest that you use batch_runner.py for large scale experiments.
 However, if you just want to play around with a smaller scale experiment then
@@ -17,7 +18,6 @@ parallel evaluations.
 
 """
 import time
-import sys
 
 from multiprocessing import Pool
 
@@ -29,6 +29,7 @@ import pandas as pd
 import plotnine as gg
 
 import seaborn as sns
+
 # import matplotlib.pyplot as plt
 
 
@@ -123,9 +124,9 @@ def save_plot_cum_regret(plt_df, probabilities):
 
 def get_probabilities_str(probabilities):
     '''
-        convert probabilities to a string
+    convert probabilities to a string
 
-        use sufficient digits to distinguish probabilities
+    use sufficient digits to distinguish probabilities
     '''
     for n_decimal in range(10):
         p_str = ['{:.{}f}'.format(p * 100, n_decimal) for p in probabilities]
@@ -138,7 +139,7 @@ def save_plot_total_regret(plt_df, probabilities, n_steps):
     ax = sns.boxplot(x='agent', y='cum_regret', data=plt_df, showmeans=True)
     fig = ax.get_figure()
 
-    title_prefix = 'total_regret_{:.0f}k_p_'.format(n_steps/1_000)
+    title_prefix = 'total_regret_{:.0f}k_p_'.format(n_steps / 1_000)
     title = title_prefix + '_'.join(get_probabilities_str(probabilities))
     fig.savefig('{}.png'.format(title))
 
