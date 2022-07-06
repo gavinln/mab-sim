@@ -17,6 +17,7 @@ parallel evaluations.
 
 """
 import time
+import sys
 
 from multiprocessing import Pool
 
@@ -26,6 +27,9 @@ from finite_arm import config_simple
 import numpy as np
 import pandas as pd
 import plotnine as gg
+
+import seaborn as sns
+# import matplotlib.pyplot as plt
 
 
 def print_config_counts(config):
@@ -117,6 +121,28 @@ def save_plot_cum_regret(plt_df, probabilities):
     # print(p)
 
 
+def get_probabilities_str(probabilities):
+    '''
+        convert probabilities to a string
+
+        use sufficient digits to distinguish probabilities
+    '''
+    for n_decimal in range(10):
+        p_str = ['{:.{}f}'.format(p * 100, n_decimal) for p in probabilities]
+        if len(set(p_str)) == len(p_str):
+            return p_str
+    return p_str
+
+
+def save_plot_total_regret(plt_df, probabilities, n_steps):
+    ax = sns.boxplot(x='agent', y='cum_regret', data=plt_df, showmeans=True)
+    fig = ax.get_figure()
+
+    title_prefix = 'total_regret_{:.0f}k_p_'.format(n_steps/1_000)
+    title = title_prefix + '_'.join(get_probabilities_str(probabilities))
+    fig.savefig('{}.png'.format(title))
+
+
 def run_experiment(experiment):
     experiment.run_experiment()
     return pd.DataFrame(experiment.results)
@@ -141,21 +167,24 @@ def main():
     N_JOBS = 100
     print(f'{N_JOBS=}')
 
-    # probs = [0.2, 0.3]
     # probs = [0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
 
     # probs = [0.6, 0.9]
+    # probs = [0.2, 0.3]
     # probs = [0.02, 0.03]
-    probs = [0.002, 0.003]
-    n_steps = 10000
-    n_seeds = 10000
+    # probs = [0.002, 0.003]
+    probs = [0.0020, 0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
+    n_steps = 1_000_000
+    n_seeds = 10000  # should be similar to n_jobs
     config = config_simple.get_config(probs, n_steps, n_seeds)
 
     print_config_counts(config)
+    rec_freq = 1_000_000
+    print(f'{rec_freq=}')
 
     experiments = []
     for job_id in range(N_JOBS):
-        job_config = config_lib.get_job_config(config, job_id)
+        job_config = config_lib.get_job_config(config, job_id, rec_freq)
         experiment = job_config["experiment"]
         experiments.append(experiment)
 
@@ -179,7 +208,8 @@ def main():
     probabilities = config.environments['env']().probs.tolist()
 
     # save_plot_instant_regret(plt_df, probabilities)
-    save_plot_cum_regret(plt_df, probabilities)
+    # save_plot_cum_regret(plt_df, probabilities)
+    save_plot_total_regret(plt_df, probabilities, n_steps)
 
 
 if __name__ == '__main__':
