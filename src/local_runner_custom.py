@@ -33,6 +33,9 @@ from finite_arm.agent_finite import FiniteBernoulliBanditTS
 from finite_arm.env_finite import FiniteArmedBernoulliBandit
 
 
+assert False, "may not be used"
+
+
 def print_config_counts(config):
     names = [
         'n_seeds',
@@ -147,7 +150,7 @@ class Experiment:
                 "action": action,
                 "unique_id": self.unique_id,
                 "agent": self.agent.name,
-                "seed": self.seed
+                "seed": self.seed,
             }
             self.results.append(data_dict)
 
@@ -189,7 +192,7 @@ def get_config(probs: list[float], n_steps: int, n_seeds: int, rec_freq: int):
 
     agents = {
         "greedy": functools.partial(FiniteBernoulliBanditEpsilonGreedy, n_arm),
-        "ts": functools.partial(FiniteBernoulliBanditTS, n_arm)
+        "ts": functools.partial(FiniteBernoulliBanditTS, n_arm),
     }
     environments = {
         "env": functools.partial(FiniteArmedBernoulliBandit, probs)
@@ -217,6 +220,8 @@ def get_config(probs: list[float], n_steps: int, n_seeds: int, rec_freq: int):
 
 
 def main():
+    assert False, "May not be used"
+
     N_JOBS = 4
 
     probs = [0.2, 0.3]

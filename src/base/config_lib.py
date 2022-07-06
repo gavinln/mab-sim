@@ -54,7 +54,7 @@ def iterate_through_config(config_in):
                     unique_id += 1
 
 
-def get_job_config(config_in, job_id):
+def get_job_config(config_in, job_id, rec_freq):
     """Retrieve the config for a specific job.
 
     Args:
@@ -73,7 +73,6 @@ def get_job_config(config_in, job_id):
     """
     for job_info in iterate_through_config(config_in):
         # rec_freq = 1
-        rec_freq = 10000
         if job_id == job_info["unique_id"]:
             agent = job_info["agent_constructor"](job_info["agent_name"])
             env = job_info["environment_constructor"]()
@@ -106,6 +105,7 @@ def get_params_df(config_in):
       params_df: Pandas dataframe mapping unique_id back to hyperparams.
     """
     config_list = []
+
     for job_info in iterate_through_config(config_in):
         info_row = {
             "agent": job_info["agent_name"],
