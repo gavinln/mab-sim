@@ -172,15 +172,15 @@ def main():
 
     # probs = [0.6, 0.9]
     # probs = [0.2, 0.3]
-    # probs = [0.02, 0.03]
+    probs = [0.02, 0.03]
     # probs = [0.002, 0.003]
-    probs = [0.0020, 0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
-    n_steps = 1_000_000
+    # probs = [0.0020, 0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
+    n_steps = 10_000
     n_seeds = 10000  # should be similar to n_jobs
     config = config_simple.get_config(probs, n_steps, n_seeds)
 
     print_config_counts(config)
-    rec_freq = 1_000_000
+    rec_freq = 10_000
     print(f'{rec_freq=}')
 
     experiments = []

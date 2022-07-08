@@ -42,7 +42,7 @@ def get_config(probs: list[float], n_steps: int, n_seeds: int):
         ]
     )
     # probs = [0.7, 0.8, 0.9]
-    probs = [0.2, 0.3]
+    # probs = [0.2, 0.3]
     # probs = [0.02, 0.03]
     # probs = [0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
     environments = collections.OrderedDict(
