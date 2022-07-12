@@ -30,8 +30,6 @@ def get_config(probs: list[float], n_steps: int, n_seeds: int):
     n_arm = len(probs)
 
     name = "finite_simple"
-    # n_arm = 3
-    n_arm = 2
     agents = collections.OrderedDict(
         [
             (
@@ -41,16 +39,10 @@ def get_config(probs: list[float], n_steps: int, n_seeds: int):
             ("ts", functools.partial(FiniteBernoulliBanditTS, n_arm)),
         ]
     )
-    # probs = [0.7, 0.8, 0.9]
-    probs = [0.2, 0.3]
-    # probs = [0.02, 0.03]
-    # probs = [0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
     environments = collections.OrderedDict(
         [("env", functools.partial(FiniteArmedBernoulliBandit, probs))]
     )
     experiments = collections.OrderedDict([(name, BaseExperiment)])
-    n_steps = 10000
-    n_seeds = 10000
     config = Config(name, agents, environments, experiments, n_steps, n_seeds)
     return config
 

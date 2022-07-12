@@ -136,12 +136,16 @@ def get_probabilities_str(probabilities):
 
 
 def save_plot_total_regret(plt_df, probabilities, n_steps):
-    ax = sns.boxplot(x='agent', y='cum_regret', data=plt_df, showmeans=True)
-    fig = ax.get_figure()
+    probability_str = '_'.join(get_probabilities_str(probabilities))
+    step_str = '{:.0f}k'.format(n_steps / 1_000)
 
-    title_prefix = 'total_regret_{:.0f}k_p_'.format(n_steps / 1_000)
-    title = title_prefix + '_'.join(get_probabilities_str(probabilities))
-    fig.savefig('{}.png'.format(title))
+    ax = sns.boxplot(x='agent', y='total_regret', data=plt_df, showmeans=True)
+    ax.set_title('steps_{}_p_{}'.format(step_str, probability_str))
+
+    file_name = 'total_regret_{}_p_{}'.format(step_str, probability_str)
+
+    fig = ax.get_figure()
+    fig.savefig('{}.png'.format(file_name))
 
 
 def run_experiment(experiment):
@@ -168,19 +172,16 @@ def main():
     N_JOBS = 100
     print(f'{N_JOBS=}')
 
-    # probs = [0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
-
-    # probs = [0.6, 0.9]
     # probs = [0.2, 0.3]
     # probs = [0.02, 0.03]
     # probs = [0.002, 0.003]
     probs = [0.0020, 0.0022, 0.0024, 0.0026, 0.0028, 0.0030]
+    n_seeds = 1_000  # should be similar to n_jobs
     n_steps = 1_000_000
-    n_seeds = 10000  # should be similar to n_jobs
-    config = config_simple.get_config(probs, n_steps, n_seeds)
-
-    print_config_counts(config)
     rec_freq = 1_000_000
+
+    config = config_simple.get_config(probs, n_steps, n_seeds)
+    print_config_counts(config)
     print(f'{rec_freq=}')
 
     experiments = []
