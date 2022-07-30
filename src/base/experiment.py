@@ -56,7 +56,7 @@ class BaseExperiment(object):
 
         # Log whatever we need for the plots we will want to use.
         instant_regret = optimal_reward - expected_reward
-        self.cum_regret += instant_regret
+        self.total_regret += instant_regret
 
         # Advance the environment (used in nonstationary experiment)
         self.environment.advance(action, reward)
@@ -65,7 +65,7 @@ class BaseExperiment(object):
             self.data_dict = {
                 "t": (t + 1),
                 "instant_regret": instant_regret,
-                "cum_regret": self.cum_regret,
+                "total_regret": self.total_regret,
                 "action": action,
                 "unique_id": self.unique_id,
             }
@@ -74,7 +74,7 @@ class BaseExperiment(object):
     def run_experiment(self):
         """Run the experiment for n_steps and collect data."""
         np.random.seed(self.seed)
-        self.cum_regret = 0
+        self.total_regret = 0
         self.cum_optimal = 0
 
         for t in range(self.n_steps):
@@ -101,7 +101,7 @@ class ExperimentWithMean(BaseExperiment):
 
         # Log whatever we need for the plots we will want to use.
         instant_regret = optimal_reward - expected_reward
-        self.cum_regret += instant_regret
+        self.total_regret += instant_regret
 
         # Advance the environment (used in nonstationary experiment)
         self.environment.advance(action, reward)
@@ -110,7 +110,7 @@ class ExperimentWithMean(BaseExperiment):
             self.data_dict = {
                 "t": (t + 1),
                 "instant_regret": instant_regret,
-                "cum_regret": self.cum_regret,
+                "total_regret": self.total_regret,
                 "posterior_mean": self.agent.get_posterior_mean(),
                 "unique_id": self.unique_id,
             }
@@ -138,7 +138,7 @@ class ExperimentNoAction(BaseExperiment):
         # Log whatever we need for the plots we will want to use.
         instant_regret = optimal_reward - expected_reward
         self.cum_optimal += optimal_reward
-        self.cum_regret += instant_regret
+        self.total_regret += instant_regret
 
         # Advance the environment (used in nonstationary experiment)
         self.environment.advance(action, reward)
@@ -147,7 +147,7 @@ class ExperimentNoAction(BaseExperiment):
             self.data_dict = {
                 "t": (t + 1),
                 "instant_regret": instant_regret,
-                "cum_regret": self.cum_regret,
+                "total_regret": self.total_regret,
                 "cum_optimal": self.cum_optimal,
                 "unique_id": self.unique_id,
             }
@@ -175,7 +175,7 @@ class DebugExperiment(BaseExperiment):
         # Log whatever we need for the plots we will want to use.
         instant_regret = optimal_reward - expected_reward
         self.cum_optimal += optimal_reward
-        self.cum_regret += instant_regret
+        self.total_regret += instant_regret
 
         # Advance the environment (used in nonstationary experiment)
         self.environment.advance(action, reward)
@@ -187,7 +187,7 @@ class DebugExperiment(BaseExperiment):
                 "cum_optimal": self.cum_optimal,
                 "expected_reward": expected_reward,
                 "instant_regret": instant_regret,
-                "cum_regret": self.cum_regret,
+                "total_regret": self.total_regret,
                 "unique_id": self.unique_id,
             }
             self.results.append(self.data_dict)
@@ -210,7 +210,7 @@ class ExperimentMultipleAgents(BaseExperiment):
 
         # Log whatever we need for the plots we will want to use.
         instant_regrets = optimal_reward - expected_rewards
-        self.cum_regrets += instant_regrets
+        self.total_regrets += instant_regrets
 
         # Advance the environment (used in nonstationary experiment)
         self.environment.advance(actions, rewards)
@@ -222,7 +222,7 @@ class ExperimentMultipleAgents(BaseExperiment):
                     "agent_id": (i + 1),
                     "action_id": (t * self.agent.num_agents + i + 1),
                     "instant_regret": instant_regrets[i],
-                    "cum_regret": self.cum_regrets[i],
+                    "total_regret": self.total_regrets[i],
                     "unique_id": self.unique_id,
                 }
                 self.results.append(self.data_dict)
@@ -230,7 +230,7 @@ class ExperimentMultipleAgents(BaseExperiment):
     def run_experiment(self):
         """Run the experiment for n_steps and collect data."""
         # np.random.seed(self.seed)
-        self.cum_regrets = np.zeros(self.agent.num_agents)
+        self.total_regrets = np.zeros(self.agent.num_agents)
 
         for t in range(self.n_steps):
             self.run_step_maybe_log(t)
