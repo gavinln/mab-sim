@@ -11,6 +11,8 @@ import functools
 
 import pytest
 
+from typing import List
+
 from base.config_lib import Config
 from base.experiment import BaseExperiment
 from finite_arm.agent_finite import FiniteBernoulliBanditEpsilonGreedy
@@ -18,7 +20,7 @@ from finite_arm.agent_finite import FiniteBernoulliBanditTS
 from finite_arm.env_finite import FiniteArmedBernoulliBandit
 
 
-def get_config(probs: list[float], n_steps: int, n_seeds: int):
+def get_config(probs: List[float], n_steps: int, n_seeds: int):
     """Generates the config for the experiment."""
 
     # check all probs between 0 and 1:p

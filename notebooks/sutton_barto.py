@@ -5,8 +5,12 @@ by Sutton and Barto, 2nd ed. rev Oct2015.
 from bandits.environment import Environment
 from bandits.bandit import GaussianBandit
 from bandits.agent import Agent, GradientAgent
-from bandits.policy import (EpsilonGreedyPolicy, GreedyPolicy, UCBPolicy,
-                            SoftmaxPolicy)
+from bandits.policy import (
+    EpsilonGreedyPolicy,
+    GreedyPolicy,
+    UCBPolicy,
+    SoftmaxPolicy,
+)
 
 
 class EpsilonGreedyExample:
@@ -24,7 +28,7 @@ class OptimisticInitialValueExample:
     bandit = GaussianBandit(10)
     agents = [
         Agent(bandit, EpsilonGreedyPolicy(0.1)),
-        Agent(bandit, GreedyPolicy(), prior=5)
+        Agent(bandit, GreedyPolicy(), prior=5),
     ]
 
 
@@ -33,7 +37,7 @@ class UCBExample:
     bandit = GaussianBandit(10)
     agents = [
         Agent(bandit, EpsilonGreedyPolicy(0.1)),
-        Agent(bandit, UCBPolicy(2))
+        Agent(bandit, UCBPolicy(2)),
     ]
 
 
@@ -45,7 +49,7 @@ class GradientExample:
         GradientAgent(bandit, policy, alpha=0.1),
         GradientAgent(bandit, policy, alpha=0.4),
         GradientAgent(bandit, policy, alpha=0.1, baseline=False),
-        GradientAgent(bandit, policy, alpha=0.4, baseline=False)
+        GradientAgent(bandit, policy, alpha=0.4, baseline=False),
     ]
 
 

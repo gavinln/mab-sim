@@ -60,7 +60,7 @@ class Environment(object):
         rows = 2
         cols = int(self.bandit.k / 2)
 
-        axes = [plt.subplot(rows, cols, i+1) for i in range(self.bandit.k)]
+        axes = [plt.subplot(rows, cols, i + 1) for i in range(self.bandit.k)]
         for i, val in enumerate(self.bandit.action_values):
             color = 'r' if i == self.bandit.optimal else 'k'
             axes[i].vlines(val, 0, 1, colors=color)
@@ -71,8 +71,12 @@ class Environment(object):
                     axes[j].vlines(val, 0, 0.75, colors=pal[i], alpha=0.8)
             else:
                 x = np.arange(0, 1, 0.001)
-                y = np.array([stats.beta.pdf(x, a, b) for a, b in
-                             zip(agent.alpha, agent.beta)])
+                y = np.array(
+                    [
+                        stats.beta.pdf(x, a, b)
+                        for a, b in zip(agent.alpha, agent.beta)
+                    ]
+                )
                 y /= np.max(y)
                 for j, _y in enumerate(y):
                     axes[j].plot(x, _y, color=pal[i], alpha=0.8)
@@ -87,8 +91,10 @@ class Environment(object):
             else:
                 ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
                 ax.set_xticklabels(['0', '', '0.5', '', '1'])
-            if i == int(cols/2):
-                title = '{}-arm Bandit - Agent Estimators'.format(self.bandit.k)
+            if i == int(cols / 2):
+                title = '{}-arm Bandit - Agent Estimators'.format(
+                    self.bandit.k
+                )
                 ax.set_title(title)
             if i == min_p:
                 ax.legend(self.agents)

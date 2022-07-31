@@ -49,7 +49,7 @@ if __name__ == '__main__':
         arm, reward, is_optimal = agent.choose()
         # print(step, arm, reward, is_optimal)
         total_optimal += is_optimal
-    print('Optimal fraction: {}'.format(total_optimal/total_steps))
+    print('Optimal fraction: {}'.format(total_optimal / total_steps))
 
     # example = BernoulliExample()
     # example = BinomialExample()
